@@ -94,9 +94,7 @@ public class Panaderia {
         if (empleadoSeleccionado == null) {
             throw new IllegalStateException("Ningún panadero tiene tiempo suficiente para el pedido, espere hasta que alguno esté disponible.");
         }
-
         empleadoSeleccionado.quitarMinutosDisponibles(tiempoMinimo);
-
         pedido.asignarEmpleado(empleadoSeleccionado, tiempoMinimo);
     }
     //cancelar pedido

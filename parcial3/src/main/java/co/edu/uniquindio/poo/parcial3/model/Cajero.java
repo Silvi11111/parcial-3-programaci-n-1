@@ -17,6 +17,6 @@ public class Cajero extends Empleado{
 
     @Override
     public int calcularTiempoProduccion(Pedido pedido) {
-        return 0;
+        return Integer.MAX_VALUE;
     }
 }

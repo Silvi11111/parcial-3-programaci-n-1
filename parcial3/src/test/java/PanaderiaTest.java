@@ -83,6 +83,54 @@ public class PanaderiaTest {
         assertEquals(0, carlos.getMinutosDisponibles(), "La disponibilidad de Carlos pasa de 45 a 0 minutos.");
         assertEquals(100, ana.getMinutosDisponibles(), "Ana conserva sus 100 minutos intactos.");
     }
+
+    @Test
+    //Registrar a Carlos, industrial con 44 minutos, y a Lucía, cajera con 120 minutos. Intentar asignar un pedido de
+    //25 panes tradicionales.
+    public void asignacionDePedidos2() {
+        PanaderoArtesanal ana = new PanaderoArtesanal("Ana", "101", "E01", 80);
+        PanaderoArtesanal diana = new PanaderoArtesanal("Diana", "102", "E02", 80);
+        PanaderoIndustrial carlos = new PanaderoIndustrial("Carlos", "103", "E03", 54);
+
+        panaderia.getListaEmpleados().add(ana);
+        panaderia.getListaEmpleados().add(diana);
+        panaderia.getListaEmpleados().add(carlos);
+
+        panaderia.registrarPedido("P01", "12345", "Cliente 1", TipoPan.INTEGRAL, 13);
+        Pedido pedido1 = panaderia.buscarPedido("P01").orElse(null);
+        panaderia.asignarPedidoProduccion(pedido1);
+
+
+        assertNotNull(pedido1);
+        assertEquals(ana, pedido1.getEmpleadoAsignado(), "Ante empate de tiempo, se asigna a Ana por orden de registro.");
+        assertEquals(0, ana.getMinutosDisponibles(), "Ana consume sus 80 minutos.");
+        assertEquals(80, diana.getMinutosDisponibles(), "Diana conserva sus 80 minutos.");
+        assertEquals(54, carlos.getMinutosDisponibles(), "Carlos conserva sus 54 minutos al no ser seleccionado.");
+    }
+
+    @Test
+    //Registrar a Carlos, industrial con 44 minutos, y a Lucía, cajera con 120 minutos. Intentar asignar un pedido de
+    //25 panes tradicionales.
+    public void asignacionDePedidos3() {
+        PanaderoIndustrial carlos = new PanaderoIndustrial("Carlos", "101", "E01", 44);
+        Cajero lucia = new Cajero("Lucía", "102", "E02", 120, "Caja 1");
+
+        panaderia.getListaEmpleados().add(carlos);
+        panaderia.getListaEmpleados().add(lucia);
+
+        panaderia.registrarPedido("P01", "12345", "Cliente 1", TipoPan.TRADICIONAL, 25);
+
+        Pedido pedido1 = panaderia.buscarPedido("P01").orElse(null);
+
+        assertThrows(IllegalStateException.class, () -> {
+            panaderia.asignarPedidoProduccion(pedido1);
+        }, "Debe lanzar IllegalStateException cuando ningún panadero dispone de tiempo.");
+
+        assertNotNull(pedido1);
+        assertEquals(EstadoPedido.PENDIENTE, pedido1.getEstadoPedido(), "El pedido debe mantenerse en estado PENDIENTE.");
+        assertEquals(44, carlos.getMinutosDisponibles(), "Carlos debe conservar sus 44 minutos.");
+        assertEquals(120, lucia.getMinutosDisponibles(), "Lucía debe conservar sus 120 minutos.");
+    }
 }
 
 
