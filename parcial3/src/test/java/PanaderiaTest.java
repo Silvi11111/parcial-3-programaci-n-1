@@ -16,7 +16,7 @@ public class PanaderiaTest {
     private Panaderia panaderia;
     @BeforeEach
     public void setUp() {
-        panaderia = new Panaderia("Trigal", "en el local", null, null);
+        panaderia = new Panaderia("Trigal", "en el local");
     }
     @Test
     //Registrar P01 por 25 panes tradicionales.

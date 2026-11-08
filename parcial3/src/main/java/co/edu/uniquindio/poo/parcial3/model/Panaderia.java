@@ -10,7 +10,7 @@ public class Panaderia {
     private List<Empleado> listaEmpleados;
     private List<Pedido> listaPedidos;
 
-    public Panaderia(String nombre, String direccion, List<Empleado> listaEmpleados, List<Pedido> listaPedidos) {
+    public Panaderia(String nombre, String direccion) {
         this.nombre = nombre;
         this.direccion = direccion;
         this.listaEmpleados = new ArrayList<>();;
@@ -104,5 +104,20 @@ public class Panaderia {
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("El código del pedido no existe.")); //
         pedido1.cancelar();
+    }
+    public String registrarEmpleado(Empleado empleado) {
+        Optional<Empleado> empleado1 = buscarEmpleado(empleado.getCodigo());
+        if(empleado1.isPresent()){
+            return "Ya existe un empleado";
+        }
+        else listaEmpleados.add(empleado);
+        return "Empleado registrado exitosamente";
+    }
+    private Optional<Empleado> buscarEmpleado(String codigo) {
+        return listaEmpleados
+                .stream()
+                .filter(e -> e.getCodigo()
+                        .equals(codigo))
+                .findFirst();
     }
 }
