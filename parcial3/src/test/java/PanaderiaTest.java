@@ -131,6 +131,67 @@ public class PanaderiaTest {
         assertEquals(44, carlos.getMinutosDisponibles(), "Carlos debe conservar sus 44 minutos.");
         assertEquals(120, lucia.getMinutosDisponibles(), "Lucía debe conservar sus 120 minutos.");
     }
+    @Test
+    //Asignar a Carlos, industrial con 120 minutos, dos pedidos de 25 panes tradicionales.
+    // Luego cancelar solo el primero.
+    public void cancelacionDePedidos1() {
+        PanaderoIndustrial carlos = new PanaderoIndustrial("Carlos", "101", "E01", 120);
+        panaderia.getListaEmpleados().add(carlos);
+
+        panaderia.registrarPedido("P01", "12345", "Cliente 1", TipoPan.TRADICIONAL, 25);
+        panaderia.registrarPedido("P02", "67890", "Cliente 2", TipoPan.TRADICIONAL, 25);
+
+        Pedido p01 = panaderia.buscarPedido("P01").orElse(null);
+        Pedido p02 = panaderia.buscarPedido("P02").orElse(null);
+
+        panaderia.asignarPedidoProduccion(p01);
+        panaderia.asignarPedidoProduccion(p02);
+
+        assertEquals(30, carlos.getMinutosDisponibles());
+
+        panaderia.cancelarPedido("P01");
+
+        assertEquals(75, carlos.getMinutosDisponibles(), "Carlos debe recuperar 45 min y quedar con 75 min disponibles.");
+        assertEquals(EstadoPedido.CANCELADO, p01.getEstadoPedido(), "El pedido P01 debe pasar a estado CANCELADO.");
+        assertEquals(EstadoPedido.ASIGNADO, p02.getEstadoPedido(), "El pedido P02 debe mantenerse en estado ASIGNADO.");
+    }
+
+    @Test
+    //Cancelar un pedido pendiente cuando hay un panadero con 100 minutos disponibles.
+    public void cancelacionDePedidos2() {
+        PanaderoArtesanal ana = new PanaderoArtesanal("Ana", "101", "E01", 100);
+        panaderia.getListaEmpleados().add(ana);
+
+        panaderia.registrarPedido("P01", "12345", "Cliente 1", TipoPan.TRADICIONAL, 25);
+
+        panaderia.cancelarPedido("P01");
+
+        Pedido pedido = panaderia.buscarPedido("P01").orElse(null);
+        assertNotNull(pedido);
+        assertEquals(EstadoPedido.CANCELADO, pedido.getEstadoPedido(), "El pedido debe pasar a estado CANCELADO.");
+        assertEquals(1, panaderia.getListaPedidos().size(), "El pedido cancelado debe permanecer en el historial.");
+        assertEquals(100, ana.getMinutosDisponibles(), "Ana debe conservar sus 100 minutos intactos.");
+    }
+    @Test
+    //Asignar un pedido, cancelarlo e intentar cancelarlo de nuevo.
+    public void cancelacionDePedidos3() {
+        PanaderoIndustrial carlos = new PanaderoIndustrial("Carlos", "101", "E01", 120);
+        panaderia.getListaEmpleados().add(carlos);
+
+        panaderia.registrarPedido("P01", "12345", "Cliente 1", TipoPan.TRADICIONAL, 25);
+        Pedido p01 = panaderia.buscarPedido("P01").orElse(null);
+
+        panaderia.asignarPedidoProduccion(p01);
+
+        panaderia.cancelarPedido("P01");
+        assertEquals(120, carlos.getMinutosDisponibles());
+
+        assertThrows(IllegalStateException.class, () -> {
+            panaderia.cancelarPedido("P01");
+        }, "Debe lanzar IllegalStateException al intentar re-cancelar un pedido ya cancelado.");
+        
+        assertEquals(120, carlos.getMinutosDisponibles(), "Los minutos solo se restauran una vez.");
+    }
 }
 
 
