@@ -29,25 +29,25 @@ public class PanaderoArtesanal extends Empleado{
         this.tiempoPanIntegral = tiempoPanIntegral;
     }
 
-    public PanaderoArtesanal(String nombre, String documento, String codigo, int minutosDisponibles, int capacidadBandeja, int tiempoPanTradicional, int tiempoPanIntegral) {
+    public PanaderoArtesanal(String nombre, String documento, String codigo, int minutosDisponibles) {
         super(nombre, documento, codigo, minutosDisponibles);
-        this.capacidadBandeja = capacidadBandeja;
-        this.tiempoPanTradicional = tiempoPanTradicional;
-        this.tiempoPanIntegral = tiempoPanIntegral;
+
     }
 
     @Override
     public int calcularTiempoProduccion(Pedido pedido) {
-        int cantidad = pedido.getCantidadUnidades();
-        TipoPan tipo = pedido.getTipoPan();
-
-        int bandejas = (int) Math.ceil((double) cantidad / capacidadBandeja);
-
-        if (tipo == TipoPan.TRADICIONAL) {
-            return bandejas * tiempoPanTradicional;
-        } else if (tipo == TipoPan.INTEGRAL) {
-            return bandejas * tiempoPanIntegral;
+        if (pedido == null || pedido.getTipoPan() == null) {
+            return Integer.MAX_VALUE;
         }
-        return 0;
+
+        int cantidad = pedido.getCantidadUnidades();
+        int bandejas = (int) Math.ceil((double) cantidad / 12);
+
+        if (pedido.getTipoPan() == TipoPan.TRADICIONAL) {
+            return bandejas * 30;
+        } else if (pedido.getTipoPan() == TipoPan.INTEGRAL) {
+            return bandejas * 40;
+        }
+        return Integer.MAX_VALUE;
     }
 }

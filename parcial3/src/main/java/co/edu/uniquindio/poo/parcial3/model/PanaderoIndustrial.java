@@ -6,12 +6,8 @@ public class PanaderoIndustrial extends  Empleado {
     private int tiempoPanTradicional=30;
     private int tiempoPanIntegral=40;
 
-    public PanaderoIndustrial(String nombre, String documento, String codigo, int minutosDisponibles, int capacidadLote, int minutosPreparacionBandeja, int tiempoPanTradicional, int tiempoPanIntegral) {
+    public PanaderoIndustrial(String nombre, String documento, String codigo, int minutosDisponibles) {
         super(nombre, documento, codigo, minutosDisponibles);
-        this.capacidadLote = capacidadLote;
-        this.minutosPreparacionBandeja = minutosPreparacionBandeja;
-        this.tiempoPanTradicional = tiempoPanTradicional;
-        this.tiempoPanIntegral = tiempoPanIntegral;
     }
 
     public int getCapacidadLote() {
@@ -48,16 +44,16 @@ public class PanaderoIndustrial extends  Empleado {
 
     @Override
     public int calcularTiempoProduccion(Pedido pedido) {
-        int cantidad = pedido.getCantidadUnidades();
-        TipoPan tipo = pedido.getTipoPan();
-
-        int lotes = (int) Math.ceil((double) cantidad / capacidadLote);
-
-        if (tipo == TipoPan.TRADICIONAL) {
-            return minutosPreparacionBandeja + (lotes * tiempoPanTradicional);
-        } else if (tipo == TipoPan.INTEGRAL) {
-            return minutosPreparacionBandeja + (lotes * tiempoPanIntegral);
+        if (pedido == null || pedido.getTipoPan() == null) {
+            return Integer.MAX_VALUE;
         }
-        return 0;
+        int cantidad = pedido.getCantidadUnidades();
+        int lotes = (int) Math.ceil((double) cantidad / 30);
+        if (pedido.getTipoPan() == TipoPan.TRADICIONAL) {
+            return 20 + (lotes * 25);
+        } else if (pedido.getTipoPan() == TipoPan.INTEGRAL) {
+            return 20 + (lotes * 35);
+        }
+        return Integer.MAX_VALUE;
     }
 }

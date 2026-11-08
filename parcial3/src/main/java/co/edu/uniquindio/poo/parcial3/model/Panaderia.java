@@ -1,5 +1,6 @@
 package co.edu.uniquindio.poo.parcial3.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,8 +13,8 @@ public class Panaderia {
     public Panaderia(String nombre, String direccion, List<Empleado> listaEmpleados, List<Pedido> listaPedidos) {
         this.nombre = nombre;
         this.direccion = direccion;
-        this.listaEmpleados = listaEmpleados;
-        this.listaPedidos = listaPedidos;
+        this.listaEmpleados = new ArrayList<>();;
+        this.listaPedidos = new ArrayList<>();;
     }
 
     public String getNombre() {
@@ -49,15 +50,18 @@ public class Panaderia {
     }
 
     //registrar pedido
-    public String registrarPedido(Pedido pedido) {
-        Optional<Pedido> pedido1 = buscarPedido(pedido.getCodigoPedido());
-        if (pedido1.isPresent()) {
-            return "Ya existe un pedido con el mismo código";
-        } else listaPedidos.add(pedido);
-        return "Pedido registrado exitosamente, pronto se le asignará un panadero";
+    public void registrarPedido(String codigo, String documentoCliente, String nombreCliente, TipoPan tipoPan, int cantidadUnidades) {
+        if (cantidadUnidades <= 0) {
+            throw new IllegalArgumentException("La cantidad de panes debe ser mayor que cero.");
+        }
+        if (buscarPedido(codigo).isPresent()) {
+            throw new IllegalArgumentException("El código del pedido ya existe."); //
+        }
+        Pedido nuevoPedido = new Pedido(codigo, documentoCliente, nombreCliente, tipoPan, cantidadUnidades,null,0,EstadoPedido.PENDIENTE);
+        listaPedidos.add(nuevoPedido);
     }
 
-    private Optional<Pedido> buscarPedido(String codigo) {
+    public Optional<Pedido> buscarPedido(String codigo) {
         return listaPedidos
                 .stream()
                 .filter(e -> e.getCodigoPedido()
@@ -78,13 +82,11 @@ public class Panaderia {
         int tiempoMinimo = Integer.MAX_VALUE;
 
         for (Empleado empleado : listaEmpleados) {
-            if (empleado instanceof Cajero) {
-                continue;
-            }
             int tiempoRequerido = empleado.calcularTiempoProduccion(pedido);
-            if (empleado.getMinutosDisponibles() >= tiempoRequerido) {
+
+            if (tiempoRequerido != Integer.MAX_VALUE && empleado.getMinutosDisponibles() >= tiempoRequerido) {
                 if (tiempoRequerido < tiempoMinimo) {
-                    tiempoMinimo = tiempoRequerido;
+                    tiempoMinimo = tiempoRequerido; // <-- ¡SI FALTA ESTA LÍNEA, EL ALGORITMO SE ROMPE!
                     empleadoSeleccionado = empleado;
                 }
             }
