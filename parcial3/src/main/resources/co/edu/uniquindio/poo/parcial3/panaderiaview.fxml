@@ -3,28 +3,20 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ButtonBar?>
-<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.SplitMenuButton?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.poo.parcial3.viewcontrollers.PanaderiaViewController">
+<AnchorPane prefHeight="344.0" prefWidth="404.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.poo.parcial3.viewcontrollers.PanaderiaViewController">
    <children>
-      <Separator layoutX="273.0" layoutY="51.0" orientation="VERTICAL" prefHeight="200.0" />
-      <Separator layoutX="273.0" layoutY="190.0" orientation="VERTICAL" prefHeight="200.0" />
-      <Text fill="#b46914" layoutX="14.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bienvenido al sistema de El Trigal">
+      <Text fill="#b46914" layoutX="17.0" layoutY="75.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bienvenido al sistema de El Trigal">
          <font>
             <Font name="System Bold Italic" size="18.0" />
          </font>
       </Text>
-      
-      <RadioButton layoutX="-103.0" layoutY="68.0" mnemonicParsing="false" text="RadioButton" />
       <ButtonBar layoutX="14.0" layoutY="110.0" prefHeight="121.0" prefWidth="230.0">
          <buttons>
             <VBox alignment="CENTER_LEFT" nodeOrientation="LEFT_TO_RIGHT" prefHeight="180.0" prefWidth="220.0" spacing="30.0">
@@ -53,52 +45,13 @@
          </buttons>
       </ButtonBar>
     <Button layoutX="-170.0" layoutY="97.0" mnemonicParsing="false" text="Button" />
-      <SplitMenuButton layoutX="-236.0" layoutY="187.0" mnemonicParsing="false" text="seleccione la acción que quiera hacer">
-        <items>
-          <MenuItem mnemonicParsing="false" text="Action 1" />
-          <MenuItem mnemonicParsing="false" text="Action 2" />
-        </items>
-      </SplitMenuButton>
       <RadioButton layoutX="-160.0" layoutY="102.0" mnemonicParsing="false" text="RadioButton" />
-      <SplitMenuButton layoutX="-262.0" layoutY="238.0" mnemonicParsing="false" text="seleccione la acción que quiera hacer">
-         <items>
-            <MenuItem mnemonicParsing="false" text="Action 1" />
-            <MenuItem mnemonicParsing="false" text="Action 2" />
-         </items>
-      </SplitMenuButton>
-      <SplitMenuButton layoutX="-236.0" layoutY="138.0" mnemonicParsing="false" text="seleccione la acción que quiera hacer">
-         <items>
-            <MenuItem mnemonicParsing="false" text="Action 1" />
-            <MenuItem mnemonicParsing="false" text="Action 2" />
-         </items>
-      </SplitMenuButton>
-      <TableView layoutX="288.0" layoutY="85.0" prefHeight="291.0" prefWidth="297.0">
-        <columns>
-          <TableColumn fx:id="txtCodigopedido" prefWidth="67.199951171875" text="Código" />
-            <TableColumn fx:id="txtNombreCliente" prefWidth="91.20001220703125" text="Nombre" />
-            <TableColumn fx:id="txtTipoPan" prefWidth="76.00003051757812" text="Tipo de pan" />
-            <TableColumn fx:id="txtCantidadPan" prefWidth="61.5999755859375" text="Cantidad" />
-        </columns>
-      </TableView>
-      <Text fill="#b46914" layoutX="301.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pedidos pendientes de clientes" wrappingWidth="259.20513916015625">
+      <Text fill="#b46914" layoutX="32.0" layoutY="110.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Seleccione la opción que quiere realizar" wrappingWidth="259.20513916015625">
          <font>
             <Font name="System Italic" size="15.0" />
          </font>
       </Text>
-      <Text fill="#b46914" layoutX="14.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Seleccione la opción que quiere realizar" wrappingWidth="259.20513916015625">
-         <font>
-            <Font name="System Italic" size="15.0" />
-         </font>
-      </Text>
-      <Button fx:id="txtGuardar" layoutX="-125.0" layoutY="316.0" mnemonicParsing="false" onAction="#guardarEvent" text="Guardar" textFill="#b46914">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Button>
-      <Button fx:id="txtCancelar" layoutX="-107.0" layoutY="361.0" mnemonicParsing="false" onAction="#cancelarEvent" text="Cancelar" textFill="#b46914">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Button>
+      <Separator layoutX="32.0" layoutY="87.0" prefWidth="200.0" />
+      <Separator layoutX="187.0" layoutY="83.0" prefHeight="10.0" prefWidth="200.0" />
    </children>
 </AnchorPane>
